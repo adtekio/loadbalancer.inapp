@@ -33,9 +33,13 @@ class Minitest::Test
   def assert_last_response_was_gif(msg = nil)
     assert last_response.ok?, msg
     assert_equal "image/gif", last_response.content_type, msg
+    assert_pixel_data(last_response.body, msg)
+  end
+
+  def assert_pixel_data(d, msg = nil)
     assert_equal([71,73,70,56,57,97,1,0,1,0,128,1,0,0,0,0,255,255,255,33,
                   249,4,1,0,0,1,0,44,0,0,0,0,1,0,1,0,0,2,2,76,1,0,59].
-                 pack("C*"), last_response.body, msg)
+                 pack("C*"), d, msg)
   end
 
   def assert_queue_entry(match_this, msg = nil)
